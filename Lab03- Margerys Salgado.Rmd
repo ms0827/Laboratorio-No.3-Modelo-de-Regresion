@@ -20,6 +20,7 @@ MCO
 # Ejercico No.2
 
 ### Carga de la base de datos
+
 ```{r}
 dataset <- read.csv("Admission_Predict_Ver1.1.csv", sep=",")
 head(dataset)
@@ -27,28 +28,34 @@ head(dataset)
 ```
 
 ### Analisis Estadistico
+
 Realice un análisis estadístico sobre todas las variables del dataset, recuerde que pude usar la función summary().
 
 ##### Nombre de las variables
+
 ```{r}
 names(dataset)
 ```
 
 ##### Resumen de los datos
+
 ```{r}
 summary(dataset)
 ```
 
 ##### Visualizacion
+
 ```{r}
-#plot(dataset)
+plot(dataset)
 ```
 
 ### Grafico de Densidad
+
 Realice una gráfica de densidad para cada una de las variables numéricas en el dataset: 
 GRE.Score, TOEFEL.Score, CGPA y Chance of Admit.
 
 ##### Grafica No.1: GRE.Score
+
 ```{r}
 library(tidyverse)
 plot(density(dataset$GRE.Score))
@@ -61,6 +68,7 @@ dataset %>%
 ```
 
 ##### Grafica No.2: TOEFL.Score
+
 ```{r}
 plot(density(dataset$TOEFL.Score))
 
@@ -72,6 +80,7 @@ dataset %>%
 ```
 
 ##### Grafica No.3: CGPA
+
 ```{r}
 plot(density(dataset$CGPA))
 
@@ -83,6 +92,7 @@ dataset %>%
 ```
 
 ##### Grafica No.4: Chance.of.Admit
+
 ```{r}
 plot(density(dataset$Chance.of.Admit))
 
@@ -94,11 +104,14 @@ dataset %>%
 ```
 
 ### Correlacion
+
 Realice una gráfica de correlación entre las variables del inciso anterior
 GRE.Score, TOEFEL.Score, CGPA y Chance of Admit
 
 ```{r}
 library(PerformanceAnalytics)
+
+data2 = dataset[, c(2,3,7,9)]
 chart.Correlation(data2, histogram = TRUE, method = "pearson")
 
 ```
@@ -106,9 +119,7 @@ chart.Correlation(data2, histogram = TRUE, method = "pearson")
 ### Comentario
 Realice comentarios sobre el análisis estadístico de las variables numéricas y la gráfica de correlación.
 
-
-
-
+Se realizo el grafico de correlación entre las variables, y se encontró que las variables seleccionadas (GRE.Score, TOEFEL.Score, CGPA y Chance.of.Admit) muestran una correlación bastante aceptable, entre ellas mismas. Además, la distribución de los datos, visualizada a través de un histograma, muestra que los mismo se comportan como una distribución normal.
 
 ### Scatter Plot
 Realice un scatter plot de todas las variables numéricas contra la variable Chance of Admit.
@@ -135,9 +146,11 @@ ggplot(dataset, aes(x = CGPA, y = Chance.of.Admit)) +
 ```
 
 ### Modelo de Regresion Simple
+
 Realice un modelo de regresión lineal simple con cada variable numérica como X y la variable Chance of Admit como Y.
 
 ##### Regresion No.1: Chance.of.Admit ~ GRE.Score
+
 ```{r}
 regr01 <- lm(Chance.of.Admit ~ GRE.Score, data = dataset)
 summary(regr01)
@@ -145,6 +158,7 @@ summary(regr01)
 ```
 
 ##### Regresion No.2: Chance.of.Admit ~ TOEFL.Score
+
 ```{r}
 regr02 <- lm(Chance.of.Admit ~ TOEFL.Score, data = dataset)
 summary(regr02)
@@ -152,6 +166,7 @@ summary(regr02)
 ```
 
 ##### Regresion No.3: Chance.of.Admit ~ University.Rating
+
 ```{r}
 regr03 <- lm(Chance.of.Admit ~ University.Rating, data = dataset)
 summary(regr03)
@@ -159,6 +174,7 @@ summary(regr03)
 ```
 
 ##### Regresion No.4: Chance.of.Admit ~ SOP
+
 ```{r}
 regr04 <- lm(Chance.of.Admit ~ SOP, data = dataset)
 summary(regr04)
@@ -166,6 +182,7 @@ summary(regr04)
 ```
 
 ##### Regresion No.5: Chance.of.Admit ~ LOR
+
 ```{r}
 regr05 <- lm(Chance.of.Admit ~ LOR, data = dataset)
 summary(regr05)
@@ -173,6 +190,7 @@ summary(regr05)
 ```
 
 ##### Regresion No.6: Chance.of.Admit ~  CGPA
+
 ```{r}
 regr06 <- lm(Chance.of.Admit ~ CGPA, data = dataset)
 summary(regr06)
@@ -180,11 +198,23 @@ summary(regr06)
 ```
 
 ##### Regresion No.7: Chance.of.Admit ~  Research
+
 ```{r}
 regr07 <- lm(Chance.of.Admit ~ Research, data = dataset)
 summary(regr07)
 
 ```
+
+### Comentarios
+
+Se realizo regresiones indivuales de las "GRE.Score", "TOEFL.Score", "University.Rating", "SOP", "LOR", "CGPA", "Research" como variables independentes y la variable "Chance.of.Admit" como variable dependiente, en cada uno de los modelos.
+
+Los resultados obtenidos denotan que el modelo Reg06 (x=CGPA, y=Chance.of.Admit) muestra que existe una relacion positiva entre CGPA y Chance.of.Admit, un aumento en CGPA, aumentara Chance of Admit en 0.20592. Los datos se encuentran menos dispersos en relacion a los demas modelos calculados, los rangos se encuentran entre -0.276590 y 0.176961.
+
+El coeficiente de determinacion R2, en el mas alto registrados de todos los moldelos, logra explicar con un 77.87% el comportamiento de la variable dependiente. El RSE fue el mas pequeno de todos los demas modelos con 0.06647.
+
+En relacion a la significancia de las variables y global del modelo de regresion estimado, las variables son estadisticamente significativas al igual que el modelo global.
+
 
 ### gráfica de cada modelo de regresión lineal
 Realice una gráfica de cada modelo de regresión lineal en su 
@@ -231,9 +261,9 @@ ggplot(dataset, aes(x=Research, y=Chance.of.Admit)) +
 
 ### Comentarios
 
+Las graficas para cada modelo de regresion con las variables GRE.Score, TOEFL.Score y CGPA, como variables indenpendientes y Chance of Admit como dependiente, muestran un comportamiento menos disperson en relacion al modelo de regresion lineal estimado para cada una de las variables.
 
-
-
+Por su parte, University.Rating, SOP y LOR no muestran un comportamiento en relacion al modelo de regresion lineal estimado.  
 
 
 ### Ejercicio No.3
@@ -257,8 +287,6 @@ Ho: B1 = B2 = Bk = 0 (igual a cero)
 H1: B1 diferente B2 diferente Bk diferente de cero
 A nivel global el modelo es estadísticamente significativo, su p-valúe es menor que 5%, confirmando que la variable seleccionada para predecir el comportamiento de Roll es estadísticamente significativa.
 
-Comentario:
-
 
 ##### Modelo No.2
 
@@ -279,11 +307,33 @@ Ho: B1 = B2 = Bk = 0 (igual a cero)
 H1: B1 diferente B2 diferente Bk diferente de cero
 A nivel global el modelo es estadísticamente significativo, su p-valúe es menor que 5%, confirmando que la variable seleccionada para predecir el comportamiento de Roll es estadísticamente significativa.
 
-Comentario:
 
 ##### Modelo No.3
 
+El modelo No.3 muestra la existencia de una relacion positiva entre Months y Cab.Price; ademas, se puede decir que un aumento de Months, la variable Cab.Price aumentara en 4.8626 unidades.
 
+Bondad de ajuste del modelo
+El R2 del modelo estimado es de 0.9509 denotando que la variable month explica en un 95.1% el comportamiento de Cab.Price.
+
+Significancia Individual, viene dada por la siguiente hipótesis:
+Ho: Bi igual a cero (No significativo)
+H1: Bi distinto de cero (Significativo)
+
+Con un nivel de confianza de 95% la variable Months es estadísticamente significativa dentro del modelo. La variable se ubica en el área de rechazo de Ho, por consiguiente, este coeficiente es diferente de cero.  Asimismo, es importante denotar que todas las variables incluidas en este nuevo modelo, también son significativas a un 99%.
+
+Significancia Global:
+Vine dada por la siguiente hipótesis:
+Ho: B1 = B2 = Bk = 0 (igual a cero)
+H1: B1 diferente B2 diferente Bk diferente de cero
+A nivel global el modelo es estadísticamente significativo, su p-valúe es menor que 5%, confirmando que la variable seleccionada para predecir el comportamiento de Cab.Price es estadísticamente significativa.
+
+
+### Comentarios
+De acuerdo a los diferentes modelos estudiados, se puede concluir que:
+
+Que el modelo No.1 mejora en relacion al R2 al incluir mas variables al analisis, se tendria que tener cuidado en la seleccion de las nuevas variables, lo anterior con el fin de evitar un modelo sobre estimado (R2  altos), mostrado en el modelo No.2 o problemas de multicolinealidad. Por lo anterior, es necesario realizar un analisis exploratorio de la variable a incluir y tratar de entender la relacion que podria existir entre la variable que se desea estimar, que para ambos ejemplos es ROLL.
+
+Por su parte, el Modelo No.3 presenta informacion estadisticamente significatica. Este modelo No.3 se puede utilizar para generar predicciones de Cab.Price.
 
 
 

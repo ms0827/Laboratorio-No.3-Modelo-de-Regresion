@@ -53,7 +53,17 @@ mco_lmr <- function(data) {
   R = Sxy/sqrt(Sxx*Syy)
   R
   
-  my_lista <- list(b0=beta0, b1=beta1, r2=R2, r=R, residuos=e)
+  library(ggplot2)
+  
+  rlm <- ggplot(data, aes(x= data[,1], y= data[,2])) +
+    geom_point() + 
+    labs(title = "Modelo de Regresion Lineal",
+         x = "Variable Independiente",
+         y = "Variable Dependiente") +
+    geom_line(data=data, aes(x = data[,1], y = beta1*data[,1] + beta0), color="red", size=1) +
+    theme_light()
+
+  my_lista <- list(b0=beta0, b1=beta1, r2=R2, r=R, residuos=e, Grafico=rlm)
   return(my_lista)
   
 }
