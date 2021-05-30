@@ -1,0 +1,294 @@
+---
+title: "Laboratorio No.3"
+Nombre: "Margerys Salgado"
+output: html_notebook
+---
+
+# Ejercicio No.1
+
+```{r}
+
+### Cargar funciones 
+source("fn_MCO_LMR.R")
+
+data= cars
+MCO <-mco_lmr(data)
+MCO
+
+```
+
+# Ejercico No.2
+
+### Carga de la base de datos
+```{r}
+dataset <- read.csv("Admission_Predict_Ver1.1.csv", sep=",")
+head(dataset)
+
+```
+
+### Analisis Estadistico
+Realice un análisis estadístico sobre todas las variables del dataset, recuerde que pude usar la función summary().
+
+##### Nombre de las variables
+```{r}
+names(dataset)
+```
+
+##### Resumen de los datos
+```{r}
+summary(dataset)
+```
+
+##### Visualizacion
+```{r}
+#plot(dataset)
+```
+
+### Grafico de Densidad
+Realice una gráfica de densidad para cada una de las variables numéricas en el dataset: 
+GRE.Score, TOEFEL.Score, CGPA y Chance of Admit.
+
+##### Grafica No.1: GRE.Score
+```{r}
+library(tidyverse)
+plot(density(dataset$GRE.Score))
+
+dataset %>%
+  ggplot(aes(x=GRE.Score, y=..density..)) +
+  geom_density(col="blue", lwd=1, fill="blue", alpha=0.5) +
+  ggtitle("Grafica No.1: GRE.Score") +
+  theme_gray()
+```
+
+##### Grafica No.2: TOEFL.Score
+```{r}
+plot(density(dataset$TOEFL.Score))
+
+dataset %>%
+  ggplot(aes(x=TOEFL.Score, y=..density..)) +
+  geom_density(col="orange", lwd=1, fill="orange", alpha=0.5) +
+  ggtitle("Grafica No.2: TOEFL.Score") +
+  theme_gray()
+```
+
+##### Grafica No.3: CGPA
+```{r}
+plot(density(dataset$CGPA))
+
+dataset %>%
+  ggplot(aes(x=CGPA, y=..density..)) +
+  geom_density(col="red", lwd=1, fill="red", alpha=0.5) +
+  ggtitle("Grafica No.3: CGPA") +
+  theme_gray()
+```
+
+##### Grafica No.4: Chance.of.Admit
+```{r}
+plot(density(dataset$Chance.of.Admit))
+
+dataset %>%
+  ggplot(aes(x=Chance.of.Admit, y=..density..)) +
+  geom_density(col="gray", lwd=1, fill="gray", alpha=0.5) +
+  ggtitle("Grafica No.4: Chance.of.Admit") +
+  theme_gray()
+```
+
+### Correlacion
+Realice una gráfica de correlación entre las variables del inciso anterior
+GRE.Score, TOEFEL.Score, CGPA y Chance of Admit
+
+```{r}
+library(PerformanceAnalytics)
+chart.Correlation(data2, histogram = TRUE, method = "pearson")
+
+```
+
+### Comentario
+Realice comentarios sobre el análisis estadístico de las variables numéricas y la gráfica de correlación.
+
+
+
+
+
+### Scatter Plot
+Realice un scatter plot de todas las variables numéricas contra la variable Chance of Admit.
+GRE.Score, TOFEL.Score, CGPA vrs Chance.of.Admit
+
+```{r}
+library(ggplot2)
+
+ggplot(dataset, aes(x = GRE.Score, y = Chance.of.Admit)) +
+  geom_point() + 
+  ggtitle("Grafico No.1: GRE.Score vr Chance.of.Admit") +
+  theme_classic()
+
+ggplot(dataset, aes(x = TOEFL.Score, y = Chance.of.Admit)) +
+  geom_point(color="blue") + 
+  ggtitle("Grafico No.2: TOEFL.Score vr Chance.of.Admit") +
+  theme_light()
+
+ggplot(dataset, aes(x = CGPA, y = Chance.of.Admit)) +
+  geom_point(color="red") + 
+  ggtitle("Grafico No.3: CGPA vr Chance.of.Admit") +
+  theme_minimal()
+
+```
+
+### Modelo de Regresion Simple
+Realice un modelo de regresión lineal simple con cada variable numérica como X y la variable Chance of Admit como Y.
+
+##### Regresion No.1: Chance.of.Admit ~ GRE.Score
+```{r}
+regr01 <- lm(Chance.of.Admit ~ GRE.Score, data = dataset)
+summary(regr01)
+
+```
+
+##### Regresion No.2: Chance.of.Admit ~ TOEFL.Score
+```{r}
+regr02 <- lm(Chance.of.Admit ~ TOEFL.Score, data = dataset)
+summary(regr02)
+
+```
+
+##### Regresion No.3: Chance.of.Admit ~ University.Rating
+```{r}
+regr03 <- lm(Chance.of.Admit ~ University.Rating, data = dataset)
+summary(regr03)
+
+```
+
+##### Regresion No.4: Chance.of.Admit ~ SOP
+```{r}
+regr04 <- lm(Chance.of.Admit ~ SOP, data = dataset)
+summary(regr04)
+
+```
+
+##### Regresion No.5: Chance.of.Admit ~ LOR
+```{r}
+regr05 <- lm(Chance.of.Admit ~ LOR, data = dataset)
+summary(regr05)
+
+```
+
+##### Regresion No.6: Chance.of.Admit ~  CGPA
+```{r}
+regr06 <- lm(Chance.of.Admit ~ CGPA, data = dataset)
+summary(regr06)
+
+```
+
+##### Regresion No.7: Chance.of.Admit ~  Research
+```{r}
+regr07 <- lm(Chance.of.Admit ~ Research, data = dataset)
+summary(regr07)
+
+```
+
+### gráfica de cada modelo de regresión lineal
+Realice una gráfica de cada modelo de regresión lineal en su 
+scatter plot correspondiente.
+
+```{r}
+
+ggplot(dataset, aes(x=GRE.Score, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("GRE.Score vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=TOEFL.Score, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("TOEFL.Score vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=University.Rating, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("University.Rating vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=SOP, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("SOP vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=LOR, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("LOR vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=CGPA, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method = lm) +
+  ggtitle("CGPA vr Chance.of.Admit")
+
+ggplot(dataset, aes(x=Research, y=Chance.of.Admit)) + 
+  geom_point() +
+  geom_smooth(method=lm) +
+  ggtitle("Research vr Chance.of.Admit")
+
+```
+
+### Comentarios
+
+
+
+
+
+
+### Ejercicio No.3
+
+##### Modelo No.1
+
+El modelo muestra un relacion directa entre las variables de estudio, ROLL y UNEM, puede interpretarse con el aumento en un punto porcentual en UNEM, ROLL aumentara en 1133.8 unidades, manteniendo todo lo demás constante.
+
+Bondad de ajuste del modelo
+El R2 del modelo No.1 se sitúa en 0.1531, denotando que UNEM logra explicar en un 15.31% el comportamiento de ROLL.
+
+Significancia Individual, viene dada por la siguiente hipótesis:
+Ho: Bi igual a cero (No significativo)
+H1: Bi distinto de cero (Significativo)
+Con un nivel de confianza de 95% la variable UNEM es estadísticamente significativa dentro del modelo.
+La variable se ubica en el área de rechazo de Ho, por consiguiente, este coeficiente es diferente de cero.
+
+Significancia Global:
+Vine dada por la siguiente hipótesis:
+Ho: B1 = B2 = Bk = 0 (igual a cero)
+H1: B1 diferente B2 diferente Bk diferente de cero
+A nivel global el modelo es estadísticamente significativo, su p-valúe es menor que 5%, confirmando que la variable seleccionada para predecir el comportamiento de Roll es estadísticamente significativa.
+
+Comentario:
+
+
+##### Modelo No.2
+
+El modelo No.2 se muestra con dos variables nuevas, HGRAD e INC, las cuales enriquecen estadísticamente el modelo propuesto. Se puede denotar una relacion positiva entre las variables UNEM, HGRAD, INC con ROLL. Además, muestra valores muchos más pequeños para explicar el comportamiento de ROLL.
+
+Bondad de ajuste del modelo
+El R2 del modelo propuesto se sitúa en 0.9621, lo cual podría ser indicios de sobre ajuste del modelo o problemas de multicolinealidad, en el mismo; podría corregirse normalizando las variables o tratando de buscar una variable que no esté influenciada entre ellas mismas.
+
+Significancia Individual, viene dada por la siguiente hipótesis:
+Ho: Bi igual a cero (No significativo)
+H1: Bi distinto de cero (Significativo)
+
+Con un nivel de confianza de 95% la variable UNEM, HGRAD, INC son estadísticamente significativa dentro del modelo. La variable se ubica en el área de rechazo de Ho, por consiguiente, este coeficiente es diferente de cero.  Asimismo, es importante denotar que todas las variables incluidas en este nuevo modelo, también son significativas a un 99%.
+
+Significancia Global:
+Vine dada por la siguiente hipótesis:
+Ho: B1 = B2 = Bk = 0 (igual a cero)
+H1: B1 diferente B2 diferente Bk diferente de cero
+A nivel global el modelo es estadísticamente significativo, su p-valúe es menor que 5%, confirmando que la variable seleccionada para predecir el comportamiento de Roll es estadísticamente significativa.
+
+Comentario:
+
+##### Modelo No.3
+
+
+
+
+
+
+
+
+
+
